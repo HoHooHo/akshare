@@ -12,6 +12,41 @@ import requests
 from akshare.utils.func import fetch_paginated_data
 
 
+
+# def getmkcode(code):
+#   if code[0] == '0' or code[0] == '3':
+#       return '0.%s' % (code)
+#   elif code[0] == '6':
+#       return '1.%s' % (code)
+#   elif code[0] == '8':
+#       return '47.%s' % (code)
+#   elif code[0:2] == 'BK':
+#       return '90.%s' % (code)
+#   elif code[0:2] == 'ZS':
+#       return '1.%s' % (code[2:])
+#   # else:
+#   #   return search_quote(code)
+
+#   return code
+
+def getmkcode(code):
+    if code[0] == '0' or code[0] == '3':
+        return '0'
+    elif code[0] == '6':
+        return '1'
+    elif code[0] == '8':
+        return '47'
+    elif code[0:2] == 'BK':
+        return '90'
+    elif code[0:2] == 'ZS':
+        return '1'
+    # else:
+    #   return search_quote(code)
+
+    return code
+
+
+
 def stock_zh_a_spot_em() -> pd.DataFrame:
     """
     东方财富网-沪深京 A 股-实时行情
@@ -975,7 +1010,8 @@ def stock_zh_a_hist(
     :return: 每日行情
     :rtype: pandas.DataFrame
     """
-    market_code = 1 if symbol.startswith("6") else 0
+    # market_code = 1 if symbol.startswith("6") else 0
+    market_code = getmkcode(symbol)
     adjust_dict = {"qfq": "1", "hfq": "2", "": "0"}
     period_dict = {"daily": "101", "weekly": "102", "monthly": "103"}
     url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
@@ -1062,7 +1098,8 @@ def stock_zh_a_hist_min_em(
     :return: 每日分时行情
     :rtype: pandas.DataFrame
     """
-    market_code = 1 if symbol.startswith("6") else 0
+    # market_code = 1 if symbol.startswith("6") else 0
+    market_code = getmkcode(symbol)
     adjust_map = {
         "": "0",
         "qfq": "1",
@@ -1184,7 +1221,8 @@ def stock_zh_a_hist_pre_min_em(
     :return: 每日分时行情包含盘前数据
     :rtype: pandas.DataFrame
     """
-    market_code = 1 if symbol.startswith("6") else 0
+    # market_code = 1 if symbol.startswith("6") else 0
+    market_code = getmkcode(symbol)
     url = "https://push2.eastmoney.com/api/qt/stock/trends2/get"
     params = {
         "fields1": "f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13",

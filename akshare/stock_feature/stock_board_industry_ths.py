@@ -62,6 +62,10 @@ def _get_stock_board_industry_name_ths() -> dict:
         for item in soup.find(name="div", attrs={"class": "cate_inner"}).find_all("a")
     ]
     name_code_map = dict(zip(name_list, code_list))
+
+    name_code_map['昨日非ST连板'] = '883988'
+    name_code_map['同花顺全A'] = '883421'
+    
     return name_code_map
 
 
